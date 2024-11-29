@@ -1,0 +1,28 @@
+<odoo>
+    <record id="view_sale_report_inherit_salesman" model="ir.ui.view">
+        <field name="name">sale.report.inherit.salesman</field>
+        <field name="model">sale.report</field>
+        <field name="inherit_id" ref="sale.view_order_product_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='User']" position="after">
+                <filter name="employee_id" string="Salesman"/>
+            </xpath>
+
+            <!-- <xpath expr="//search" position="inside">
+                <filter string="Salesman" name="salesman_filter" domain="[]" />
+            </xpath> -->
+        </field>
+    </record>
+
+    <!-- Tambahkan Action -->
+    <record id="action_sales_analysis_by_salesman" model="ir.actions.act_window">
+        <field name="name">Sales Analysis by Salesman</field>
+        <field name="res_model">sale.report</field>
+        <field name="view_mode">pivot</field>
+        <field name="context">{'group_by': 'employee_id', 'search_default_filter_order_date': 1}</field>
+    </record>
+
+    <!-- Tambahkan Menu -->
+    <menuitem id="menu_sales_analysis_by_salesman" name="Salesman" parent="sale.menu_sale_report" action="action_sales_analysis_by_salesman" sequence="10"/>
+
+</odoo>

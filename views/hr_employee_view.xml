@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_hr_employee_form_inherit_sales_data" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.sales.data</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='skills_resume']" position="after">
+                <page name="sales_data" string="Sales Information">
+                    <group string="Sales Data">
+                        <field name="total_so_count"/>
+                        <field name="total_invoice_count"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
