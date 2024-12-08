@@ -13,7 +13,7 @@
         <record id="view_account_invoice_report_search_salesman" model="ir.ui.view">
             <field name="name">account.invoice.report.search.salesman</field>
             <field name="model">account.invoice.report</field>
-            <field name="inherit_id" ref="sale.view_account_invoice_report_search"/>
+            <field name="inherit_id" ref="sale.view_account_invoice_report_search_inherit"/>
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='sales_channel']" position="after">
                     <filter string="Salesman" name='employee_id' context="{'group_by':'employee_id'}"/>
