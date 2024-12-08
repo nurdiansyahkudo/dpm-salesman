@@ -3,7 +3,7 @@
     <data>
 
         <!-- Inherit View Tree untuk Account Invoice Report -->
-        <record id="account_invoice_report_view_tree_inherited" model="ir.ui.view">
+        <!-- <record id="account_invoice_report_view_tree_inherited" model="ir.ui.view">
             <field name="name">account.invoice.report.view.tree.inherited</field>
             <field name="model">account.invoice.report</field>
             <field name="inherit_id" ref="account_invoice_report_view_tree"/>
@@ -12,7 +12,7 @@
                   <field name="employee_id" string="Salesman" optional="hide" widget="many2one_avatar_user"/> 
                 </xpath>
             </field>
-        </record>
+        </record> -->
 
         <!-- Inherit Filter Custom untuk Employee -->
         <record id="filter_invoice_report_salesman_inherited" model="ir.filters">
