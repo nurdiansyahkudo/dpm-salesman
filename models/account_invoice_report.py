@@ -22,7 +22,7 @@ class AccountInvoiceReport(models.Model):
     commercial_partner_id = fields.Many2one('res.partner', string='Main Partner')
     country_id = fields.Many2one('res.country', string="Country")
     invoice_user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
-    invoice_employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)
+    employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)
     move_type = fields.Selection([
         ('out_invoice', 'Customer Invoice'),
         ('in_invoice', 'Vendor Bill'),
@@ -55,12 +55,12 @@ class AccountInvoiceReport(models.Model):
     _depends = {
         'account.move': [
             'name', 'state', 'move_type', 'partner_id', 'invoice_user_id', 'fiscal_position_id',
-            'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id', 'invoice_employee_id',
+            'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id', 'employee_id',
         ],
         'account.move.line': [
             'quantity', 'price_subtotal', 'price_total', 'amount_residual', 'balance', 'amount_currency',
             'move_id', 'product_id', 'product_uom_id', 'account_id',
-            'journal_id', 'company_id', 'currency_id', 'partner_id',
+            'journal_id', 'company_id', 'currency_id', 'partner_id', 'employee_id'
         ],
         'product.product': ['product_tmpl_id', 'standard_price'],
         'product.template': ['categ_id'],
@@ -90,7 +90,7 @@ class AccountInvoiceReport(models.Model):
                 move.move_type,
                 move.partner_id,
                 move.invoice_user_id,
-                move.invoice_employee_id,
+                move.employee_id,
                 move.fiscal_position_id,
                 move.payment_state,
                 move.invoice_date,
