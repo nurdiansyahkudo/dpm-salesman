@@ -24,9 +24,10 @@
         </record>
 
         <!-- Inherit Search View -->
-        <record id="view_account_invoice_report_search" model="ir.ui.view">
-            <field name="name">account.invoice.report.search</field>
+        <record id="view_account_invoice_report_search_inherit" model="ir.ui.view">
+            <field name="name">account.invoice.report.search.inherit</field>
             <field name="model">account.invoice.report</field>
+            <field name="inherit_id" ref="account.view_account_invoice_report_search"/>
             <field name="arch" type="xml">
                 <xpath expr="//search/filter[@name='user']" position="after">
                   <filter string="Salesman" name='employee' context="{'group_by':'employee_id'}"/> 
