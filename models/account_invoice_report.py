@@ -7,7 +7,7 @@ from functools import lru_cache
 
 
 class AccountInvoiceReport(models.Model):
-    _name = "account.invoice.report"
+    _inherit = "account.invoice.report"
     _description = "Invoices Statistics"
     _auto = False
     _rec_name = 'invoice_date'
@@ -55,7 +55,7 @@ class AccountInvoiceReport(models.Model):
     _depends = {
         'account.move': [
             'name', 'state', 'move_type', 'partner_id', 'invoice_user_id', 'fiscal_position_id',
-            'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id', 'invoice_employee_id'
+            'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id', 'invoice_employee_id',
         ],
         'account.move.line': [
             'quantity', 'price_subtotal', 'price_total', 'amount_residual', 'balance', 'amount_currency',
@@ -90,7 +90,7 @@ class AccountInvoiceReport(models.Model):
                 move.move_type,
                 move.partner_id,
                 move.invoice_user_id,
-                move.invoice_employee_id
+                move.invoice_employee_id,
                 move.fiscal_position_id,
                 move.payment_state,
                 move.invoice_date,
