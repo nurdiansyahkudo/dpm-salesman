@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
-
 from odoo import models, fields, api
 from odoo.addons.account.models.account_move import PAYMENT_STATE_SELECTION
 
-from functools import lru_cache
-
-
 class AccountInvoiceReport(models.Model):
-    _inherit = "account.invoice.report"
+    _name = "account.invoice.report"
     _description = "Invoices Statistics"
     _auto = False
     _rec_name = 'invoice_date'
     _order = 'invoice_date desc'
 
-    # ==== Invoice fields ====
+    # ==== Existing Fields ====
     move_id = fields.Many2one('account.move', readonly=True)
     journal_id = fields.Many2one('account.journal', string='Journal', readonly=True)
     company_id = fields.Many2one('res.company', string='Company', readonly=True)
@@ -22,7 +18,7 @@ class AccountInvoiceReport(models.Model):
     commercial_partner_id = fields.Many2one('res.partner', string='Main Partner')
     country_id = fields.Many2one('res.country', string="Country")
     invoice_user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
-    employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)
+    employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)  # Field inherited from account.move
     move_type = fields.Selection([
         ('out_invoice', 'Customer Invoice'),
         ('in_invoice', 'Vendor Bill'),
@@ -37,8 +33,6 @@ class AccountInvoiceReport(models.Model):
     payment_state = fields.Selection(selection=PAYMENT_STATE_SELECTION, string='Payment Status', readonly=True)
     fiscal_position_id = fields.Many2one('account.fiscal.position', string='Fiscal Position', readonly=True)
     invoice_date = fields.Date(readonly=True, string="Invoice Date")
-
-    # ==== Invoice line fields ====
     quantity = fields.Float(string='Product Quantity', readonly=True)
     product_id = fields.Many2one('product.product', string='Product', readonly=True)
     product_uom_id = fields.Many2one('uom.uom', string='Unit of Measure', readonly=True)
@@ -55,18 +49,13 @@ class AccountInvoiceReport(models.Model):
     _depends = {
         'account.move': [
             'name', 'state', 'move_type', 'partner_id', 'invoice_user_id', 'fiscal_position_id',
-            'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id', 'employee_id',
+            'invoice_date', 'invoice_date_due', 'invoice_payment_term_id', 'partner_bank_id', 'employee_id',  # Include employee_id
         ],
         'account.move.line': [
             'quantity', 'price_subtotal', 'price_total', 'amount_residual', 'balance', 'amount_currency',
             'move_id', 'product_id', 'product_uom_id', 'account_id',
-            'journal_id', 'company_id', 'currency_id', 'partner_id', 'employee_id'
+            'journal_id', 'company_id', 'currency_id',
         ],
-        'product.product': ['product_tmpl_id', 'standard_price'],
-        'product.template': ['categ_id'],
-        'uom.uom': ['category_id', 'factor', 'name', 'uom_type'],
-        'res.currency.rate': ['currency_id', 'name'],
-        'res.partner': ['country_id'],
     }
 
     @property
@@ -90,7 +79,7 @@ class AccountInvoiceReport(models.Model):
                 move.move_type,
                 move.partner_id,
                 move.invoice_user_id,
-                move.employee_id,
+                move.employee_id,  -- Include employee_id in select
                 move.fiscal_position_id,
                 move.payment_state,
                 move.invoice_date,
@@ -103,9 +92,7 @@ class AccountInvoiceReport(models.Model):
                 line.price_total * (CASE WHEN move.move_type IN ('in_invoice','out_refund','in_receipt') THEN -1 ELSE 1 END)
                                                                             AS price_total,
                 -COALESCE(
-                   -- Average line price
                    (line.balance / NULLIF(line.quantity, 0.0)) * (CASE WHEN move.move_type IN ('in_invoice','out_refund','in_receipt') THEN -1 ELSE 1 END)
-                   -- convert to template uom
                    * (NULLIF(COALESCE(uom_line.factor, 1), 0.0) / NULLIF(COALESCE(uom_template.factor, 1), 0.0)),
                    0.0) * currency_table.rate                               AS price_average,
                 CASE
@@ -123,14 +110,12 @@ class AccountInvoiceReport(models.Model):
     def _from(self):
         return '''
             FROM account_move_line line
-                LEFT JOIN res_partner partner ON partner.id = line.partner_id
                 LEFT JOIN product_product product ON product.id = line.product_id
                 LEFT JOIN account_account account ON account.id = line.account_id
                 LEFT JOIN product_template template ON template.id = product.product_tmpl_id
                 LEFT JOIN uom_uom uom_line ON uom_line.id = line.product_uom_id
                 LEFT JOIN uom_uom uom_template ON uom_template.id = template.uom_id
                 INNER JOIN account_move move ON move.id = line.move_id
-                LEFT JOIN res_partner commercial_partner ON commercial_partner.id = move.commercial_partner_id
                 LEFT JOIN ir_property product_standard_price
                     ON product_standard_price.res_id = CONCAT('product.product,', product.id)
                     AND product_standard_price.name = 'standard_price'
@@ -147,37 +132,3 @@ class AccountInvoiceReport(models.Model):
                 AND line.account_id IS NOT NULL
                 AND line.display_type = 'product'
         '''
-
-
-class ReportInvoiceWithoutPayment(models.AbstractModel):
-    _name = 'report.account.report_invoice'
-    _description = 'Account report without payment lines'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        docs = self.env['account.move'].browse(docids)
-
-        qr_code_urls = {}
-        for invoice in docs:
-            if invoice.display_qr_code:
-                new_code_url = invoice._generate_qr_code(silent_errors=data['report_type'] == 'html')
-                if new_code_url:
-                    qr_code_urls[invoice.id] = new_code_url
-
-        return {
-            'doc_ids': docids,
-            'doc_model': 'account.move',
-            'docs': docs,
-            'qr_code_urls': qr_code_urls,
-        }
-
-class ReportInvoiceWithPayment(models.AbstractModel):
-    _name = 'report.account.report_invoice_with_payments'
-    _description = 'Account report with payment lines'
-    _inherit = 'report.account.report_invoice'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        rslt = super()._get_report_values(docids, data)
-        rslt['report_type'] = data.get('report_type') if data else ''
-        return rslt
