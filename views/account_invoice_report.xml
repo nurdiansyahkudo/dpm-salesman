@@ -8,9 +8,9 @@
             <field name="model">account.invoice.report</field>
             <field name="inherit_id" ref="account_invoice_report_view_tree"/>
             <field name="arch" type="xml">
-                <tree string="Invoices Analysis">
-                    <field name="employee_id" string="Salesman" optional="show"/> <!-- Tambahan -->
-                </tree>
+                <xpath expr="//tree/field[@name='invoice_user_id']" position="after">
+                  <field name="employee_id" string="Salesman" optional="hide" widget="many2one_avatar_user"/> 
+                </xpath>
             </field>
         </record>
 
