@@ -111,6 +111,7 @@ class AccountInvoiceReport(models.Model):
         return '''
             FROM account_move_line line
                 LEFT JOIN res_partner partner ON partner.id = line.partner_id
+                LEFT JOIN hr_employee employee ON employee.id = line.employee_id
                 LEFT JOIN product_product product ON product.id = line.product_id
                 LEFT JOIN account_account account ON account.id = line.account_id
                 LEFT JOIN product_template template ON template.id = product.product_tmpl_id
