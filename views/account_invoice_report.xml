@@ -15,20 +15,18 @@
         </record> -->
 
         <!-- Inherit Filter Custom untuk Employee -->
-        <record id="filter_invoice_report_salesman_inherited" model="ir.filters">
-            <field name="name">By Salesman Inherited</field>
+        <record id="filter_invoice_report_salesman" model="ir.filters">
+            <field name="name">By Salesman</field>
             <field name="model_id">account.invoice.report</field>
-            <field name="inherit_id" ref="filter_invoice_report_salesman"/>
             <field name="domain">[]</field>
             <field name="user_id" eval="False"/>
             <field name="context">{'group_by': ['invoice_date:month', 'employee_id']}</field>
         </record>
 
         <!-- Inherit Search View -->
-        <record id="view_account_invoice_report_search_inherited" model="ir.ui.view">
+        <record id="view_account_invoice_report_search" model="ir.ui.view">
             <field name="name">account.invoice.report.search.inherited</field>
             <field name="model">account.invoice.report</field>
-            <field name="inherit_id" ref="view_account_invoice_report_search"/>
             <field name="arch" type="xml">
                 <search string="Invoices Analysis">
                     <field name="employee_id" string="Salesman"/> <!-- Tambahkan Field di Pencarian -->
