@@ -3,7 +3,7 @@ from odoo import models, fields, api
 from odoo.addons.account.models.account_move import PAYMENT_STATE_SELECTION
 
 class AccountInvoiceReport(models.Model):
-    _name = "account.invoice.report"
+    _inherit = "account.invoice.report"
     _description = "Invoices Statistics"
     _auto = False
     _rec_name = 'invoice_date'
