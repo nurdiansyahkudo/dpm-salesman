@@ -25,15 +25,12 @@
 
         <!-- Inherit Search View -->
         <record id="view_account_invoice_report_search" model="ir.ui.view">
-            <field name="name">account.invoice.report.search.inherited</field>
+            <field name="name">account.invoice.report.search</field>
             <field name="model">account.invoice.report</field>
             <field name="arch" type="xml">
-                <search string="Invoices Analysis">
-                    <field name="employee_id" string="Salesman"/> <!-- Tambahkan Field di Pencarian -->
-                    <group expand="1" string="Group By">
-                        <filter string="Salesman" name='group_by_employee' context="{'group_by':'employee_id'}"/> 
-                    </group>
-                </search>
+                <xpath expr="//search/filter[@name='user']" position="after">
+                  <filter string="Salesman" name='employee' context="{'group_by':'employee_id'}"/> 
+                </xpath>
             </field>
         </record>
     </data>
