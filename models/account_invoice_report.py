@@ -79,7 +79,7 @@ class AccountInvoiceReport(models.Model):
                 move.move_type,
                 move.partner_id,
                 move.invoice_user_id,
-                move.employee_id,  -- Include employee_id in select
+                move.employee_id,
                 move.fiscal_position_id,
                 move.payment_state,
                 move.invoice_date,
