@@ -3,7 +3,7 @@ from odoo import fields, models, api
 class Picking(models.Model):
     _inherit = 'stock.picking'
 
-    employee_id = fields.Many2one(
+    employee_id = fields.Many2many(
         'hr.employee',
         string='Salesman',
         compute='_compute_employee_id',

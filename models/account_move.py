@@ -3,7 +3,7 @@ from odoo import models, fields, api
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    employee_id = fields.Many2one(
+    employee_id = fields.Many2many(
         'hr.employee',
         string='Salesman'
     )
