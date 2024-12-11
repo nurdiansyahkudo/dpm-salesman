@@ -7,7 +7,7 @@ class HREmployee(models.Model):
         string="Total SO", compute="_compute_total_so_count", store=False)
     total_invoice_count = fields.Integer(
         string="Total Invoice", compute="_compute_total_invoice_count", store=False)
-    initial = fields.Char(string="Initial", compute="_compute_initial")
+    initial = fields.Char(string="Initial", compute="_compute_initial", store=True)
 
     def _compute_total_so_count(self):
         for employee in self:
