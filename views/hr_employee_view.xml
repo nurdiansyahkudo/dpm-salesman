@@ -4,6 +4,9 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//group/field[@name='mobile_phone']" position="before">
+                <field name="initial"/>
+            </xpath>
             <xpath expr="//notebook/page[@name='skills_resume']" position="after">
                 <page name="sales_data" string="Sales Information">
                     <group string="Sales Data">
