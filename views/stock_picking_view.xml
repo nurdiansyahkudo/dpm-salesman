@@ -19,7 +19,7 @@
         <field name="inherit_id" ref="stock.view_picking_form"/>
         <field name="arch" type="xml">
             <xpath expr="//header/button[@name='button_validate']" position="replace">
-                <button name="button_validate" invisible="state in ('draft', 'confirmed', 'done', 'cancel')" string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user" data-hotkey="v"/>
+                <button name="button_validate" invisible="state in ('draft', 'confirmed', 'done', 'cancel') or user_has_groups('sales_team.group_sale_manager')" string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user" data-hotkey="v"/>
             </xpath>
 
             <xpath expr="//group[@name='other_infos']/field[@name='user_id']" position="after">
