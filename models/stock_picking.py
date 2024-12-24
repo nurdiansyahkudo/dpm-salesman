@@ -14,7 +14,7 @@ class Picking(models.Model):
         string='Salesman',
         domain=[
             ('is_company', '=', False), 
-            ('company_name', '=', 'PT Duta Pertiwi Mandiri')
+            ('company_name', '=', 'Duta Pertiwi Mandiri')
         ],
         readonly=True
     )
