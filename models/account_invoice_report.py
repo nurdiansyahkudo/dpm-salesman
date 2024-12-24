@@ -18,7 +18,16 @@ class AccountInvoiceReport(models.Model):
     commercial_partner_id = fields.Many2one('res.partner', string='Main Partner')
     country_id = fields.Many2one('res.country', string="Country")
     invoice_user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
-    employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)  # Field inherited from account.move
+    # employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)
+    employee_id = fields.Many2one(
+        'res.partner',
+        string='Salesman',
+        domain=[
+            ('is_company', '=', False), 
+            ('company_name', '=', 'Duta Pertiwi Mandiri')
+        ],
+        readonly=True
+    )
     move_type = fields.Selection([
         ('out_invoice', 'Customer Invoice'),
         ('in_invoice', 'Vendor Bill'),
