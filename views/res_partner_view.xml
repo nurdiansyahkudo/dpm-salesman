@@ -1,4 +1,4 @@
-<odoo>
+<!-- <odoo>
     <record id="view_partner_form_inherit_salesman" model="ir.ui.view">
         <field name="name">res.partner.form.inherit.salesman</field>
         <field name="model">res.partner</field>
@@ -9,4 +9,4 @@
             </xpath>
         </field>
     </record>
-</odoo>
+</odoo> -->
