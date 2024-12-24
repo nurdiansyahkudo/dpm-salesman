@@ -20,16 +20,16 @@ class SaleReport(models.Model):
     pricelist_id = fields.Many2one(comodel_name='product.pricelist', readonly=True)
     team_id = fields.Many2one(comodel_name='crm.team', string="Sales Team", readonly=True)
     user_id = fields.Many2one(comodel_name='res.users', string="Salesperson", readonly=True)
-    # employee_id = fields.Many2one(comodel_name='hr.employee', string="Salesman", readonly=True)
-    employee_id = fields.Many2one(
-        'res.partner',
-        string='Salesman',
-        domain=[
-            ('is_company', '=', False), 
-            ('company_name', '=', 'Duta Pertiwi Mandiri')
-        ],
-        readonly=True
-    )
+    employee_id = fields.Many2one(comodel_name='hr.employee', string="Salesman", readonly=True)
+    # employee_id = fields.Many2one(
+    #     'res.partner',
+    #     string='Salesman',
+    #     domain=[
+    #         ('is_company', '=', False), 
+    #         ('company_name', '=', 'Duta Pertiwi Mandiri')
+    #     ],
+    #     readonly=True
+    # )
     state = fields.Selection(selection=SALE_ORDER_STATE, string="Status", readonly=True)
     analytic_account_id = fields.Many2one(
         comodel_name='account.analytic.account', string="Analytic Account", readonly=True)
