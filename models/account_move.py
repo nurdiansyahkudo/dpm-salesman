@@ -3,16 +3,16 @@ from odoo import models, fields, api
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    employee_id = fields.Many2many('hr.employee', string="Salesman")
-    # employee_id = fields.Many2one(
-    #     'res.partner',
-    #     string='Salesman',
-    #     domain=[
-    #         ('is_company', '=', False), 
-    #         ('company_name', '=', 'Duta Pertiwi Mandiri')
-    #     ],
-    #     readonly=True
-    # )
+    # employee_id = fields.Many2many('hr.employee', string="Salesman")
+    employee_id = fields.Many2one(
+        'res.partner',
+        string='Salesman',
+        domain=[
+            ('is_company', '=', False), 
+            ('company_name', '=', 'Duta Pertiwi Mandiri')
+        ],
+        readonly=True
+    )
 
     @api.model
     def create(self, vals):

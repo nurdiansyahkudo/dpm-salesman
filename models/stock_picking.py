@@ -3,21 +3,21 @@ from odoo import fields, models, api
 class Picking(models.Model):
     _inherit = 'stock.picking'
 
-    employee_id = fields.Many2many(
-        'hr.employee',
-        string='Salesman',
-        compute='_compute_employee_id',
-        store=True
-    )
-    # employee_id = fields.Many2one(
-    #     'res.partner',
+    # employee_id = fields.Many2many(
+    #     'hr.employee',
     #     string='Salesman',
-    #     domain=[
-    #         ('is_company', '=', False), 
-    #         ('company_name', '=', 'Duta Pertiwi Mandiri')
-    #     ],
-    #     readonly=True
+    #     compute='_compute_employee_id',
+    #     store=True
     # )
+    employee_id = fields.Many2one(
+        'res.partner',
+        string='Salesman',
+        domain=[
+            ('is_company', '=', False), 
+            ('company_name', '=', 'Duta Pertiwi Mandiri')
+        ],
+        readonly=True
+    )
 
     @api.depends('sale_id')
     def _compute_employee_id(self):
