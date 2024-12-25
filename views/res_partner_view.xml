@@ -1,12 +1,12 @@
-<!-- <odoo>
+<odoo>
     <record id="view_partner_form_inherit_salesman" model="ir.ui.view">
         <field name="name">res.partner.form.inherit.salesman</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group/field[@name='mobile_phone']" position="before">
+            <xpath expr="//group/field[@name='phone']" position="before">
                 <field name="initial" readonly="false"/>
             </xpath>
         </field>
     </record>
-</odoo> -->
+</odoo>

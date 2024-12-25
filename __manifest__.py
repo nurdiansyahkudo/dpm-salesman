@@ -11,7 +11,7 @@
         'views/hr_employee_view.xml',
         'views/sale_report_view.xml',
         'views/stock_picking_view.xml',
-        # 'views/res_partner_view.xml',
+        'views/res_partner_view.xml',
         'views/account_invoice_report.xml',
     ],
     'installable': True,
