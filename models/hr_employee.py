@@ -8,6 +8,16 @@ class HREmployee(models.Model):
     total_invoice_count = fields.Integer(
         string="Total Invoice", compute="_compute_total_invoice_count", store=False)
     initial = fields.Char(string="Initial", compute="_compute_initial", store=True)
+    property_account_payable_id = fields.Many2one('account.account', company_dependent=True,
+        string="Account Payable",
+        domain="[('account_type', '=', 'liability_payable'), ('deprecated', '=', False)]",
+        help="This account will be used instead of the default one as the payable account for the current partner",
+        required=True)
+    property_account_receivable_id = fields.Many2one('account.account', company_dependent=True,
+        string="Account Receivable",
+        domain="[('account_type', '=', 'asset_receivable'), ('deprecated', '=', False)]",
+        help="This account will be used instead of the default one as the receivable account for the current partner",
+        required=True)
 
     def _compute_total_so_count(self):
         for employee in self:
