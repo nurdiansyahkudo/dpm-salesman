@@ -15,14 +15,14 @@
                     </group>
                 </page>
             </xpath>
-            <xpath expr="//notebook/page[@name='sales_data']" position="after">
+            <!-- <xpath expr="//notebook/page[@name='sales_data']" position="after">
                 <page name="accounting" string="Accounting Information">
                     <group string="Accounting Entries" name="accounting_entries" groups="account.group_account_readonly">
                         <field name="property_account_receivable_id"/>
                         <field name="property_account_payable_id"/>
                     </group>
                 </page>
-            </xpath>
+            </xpath> -->
         </field>
     </record>
 </odoo>
