@@ -17,6 +17,7 @@ class AccountInvoiceReport(models.Model):
     partner_id = fields.Many2one('res.partner', string='Partner', readonly=True)
     commercial_partner_id = fields.Many2one('res.partner', string='Main Partner')
     country_id = fields.Many2one('res.country', string="Country")
+    team_id = fields.Many2one(comodel_name='crm.team', string="Sales Team", readonly=True)
     invoice_user_id = fields.Many2one('res.users', string='Salesperson', readonly=True)
     employee_id = fields.Many2one('hr.employee', string='Salesman', readonly=True)
     # employee_id = fields.Many2one(
@@ -88,6 +89,7 @@ class AccountInvoiceReport(models.Model):
                 move.move_type,
                 move.partner_id,
                 move.invoice_user_id,
+                move.team_id,
                 move.employee_id,
                 move.fiscal_position_id,
                 move.payment_state,
